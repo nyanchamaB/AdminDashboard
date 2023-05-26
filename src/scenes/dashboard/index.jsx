@@ -6,15 +6,35 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
-import PoolIcon from '@mui/icons-material/Pool';
 import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
-
+import { useState,useEffect } from "react";
+import { fetchStudentsCount, fetchTeachersCount, fetchEventsCount } from './apiService';
 
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [studentsCount, setStudentsCount] = useState(0);
+  const [teachersCount, setTeachersCount] = useState(0);
+  const [eventsCount, setEventsCount] = useState(0);
+
+  useEffect(() => {
+    // Fetch teachers count
+    fetchTeachersCount()
+      .then(count => setTeachersCount(count))
+      .catch(error => console.error(error));
+
+    // Fetch students count
+    fetchStudentsCount()
+      .then(count => setStudentsCount(count))
+      .catch(error => console.error(error));
+
+    // Fetch events count
+    fetchEventsCount()
+      .then(count => setEventsCount(count))
+      .catch(error => console.error(error));
+  }, []);
 
   return (
     <Box m="20px">
@@ -54,7 +74,7 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="12,361"
+          //  title={teachersCount}
             subtitle="Total teachers"
             icon={
               <HistoryEduIcon
@@ -71,7 +91,7 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="431,225"
+           // title={studentsCount}
             subtitle="Total students"
             icon={
               <Diversity1Icon
@@ -159,32 +179,11 @@ const Dashboard = () => {
             <BarChartIcon isDashboard={true} />
           </Box>
         </Box>
-         
+         </Box>
              
         </Box>
 
-        {/* ROW 3 */}
-      
-         
-       
-        <Box
-          gridColumn="span 12"
-          gridRow="span 6 "
-          backgroundColor={colors.primary[400]}
-          padding="30px"
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ marginBottom: "15px" }}
-          >
-            Extra-curricular activities
-          </Typography>
-          <Box height="200px">
-            <PoolIcon  isDashboard={true} />
-          </Box>
-        </Box>
-      </Box>
+    
   );
 };
 

@@ -1,17 +1,17 @@
-import { Box } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { Box, Typography, useTheme } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
-import { useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
 
-const Contacts = () => {
+const Accounts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
+    { field: "id", headerName: "ID" },
     {
       field: "name",
       headerName: "Name",
@@ -36,28 +36,62 @@ const Contacts = () => {
       flex: 1,
     },
     {
-      field: "address",
-      headerName: "Address",
+      field: "accessLevel",
+      headerName: "Access Level",
       flex: 1,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
-      flex: 1,
+      renderCell: ({ row: { access } }) => {
+        return (
+          <Box
+            width="60%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            backgroundColor={
+              access === "admin"
+                ? colors.greenAccent[600]
+                : access === "manager"
+                ? colors.greenAccent[700]
+                : colors.greenAccent[700]
+            }
+            borderRadius="4px"
+          >
+            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
+            {access === "manager" && <SecurityOutlinedIcon />}
+            {access === "user" && <LockOpenOutlinedIcon />}
+            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
+              {access}
+            </Typography>
+          </Box>
+        );
+      },
     },
   ];
 
+  const [data, setData] = useState([]);
+
+  // Replace this line with your data fetching logic to get the actual data
+  const fetchData = async () => {
+    try {
+      // Fetch the data from your API or data source
+      const response = await fetch("/api/users");
+      const fetchedData = await response.json();
+
+      // Set the fetched data to the component state
+      setData(fetchedData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Call the fetchData function to fetch the data when the component mounts
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Box m="20px">
-      <Header
-        title="CONTACTS"
-        subtitle="List of Contacts for Future Reference"
-      />
+      <Header title="TEAM" subtitle="Managing the Team Members" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -85,19 +119,13 @@ const Contacts = () => {
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${colors.grey[100]} !important`,
-          },
         }}
       >
-        <DataGrid
-          rows={mockDataContacts}
-          columns={columns}
-          components={{ Toolbar: GridToolbar }}
-        />
+        {/* Replace the rows prop with your actual data */}
+        <DataGrid rows={data} columns={columns} />
       </Box>
     </Box>
   );
 };
 
-export default Contacts;
+export default Accounts;

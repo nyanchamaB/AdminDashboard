@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
@@ -5,9 +6,8 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
-import { useEffect, useState } from "react";
 
-const Exams = () => {
+const User = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
@@ -66,22 +66,30 @@ const Exams = () => {
         );
       },
     },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 1,
+      renderCell: () => {
+        return (
+          <Box display="flex" justifyContent="center">
+            {/* Add your admin-specific actions here */}
+            <Typography color={colors.primary[500]}>Edit</Typography>
+            <Typography color={colors.primary[500]}>Delete</Typography>
+          </Box>
+        );
+      },
+    },
   ];
-
-  const [data, setData] = useState([]);
 
   // Replace this line with your data fetching logic to get the actual data
   const fetchData = async () => {
-    try {
-      // Fetch the data from your API or data source
-      const response = await fetch("/api/users");
-      const fetchedData = await response.json();
+    // Fetch the data from your API or data source
+    // Example: const response = await fetch('/api/users');
+    // const data = await response.json();
 
-      // Set the fetched data to the component state
-      setData(fetchedData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    // Set the fetched data to your component state or use it directly
+    // Example: setData(data);
   };
 
   // Call the fetchData function to fetch the data when the component mounts
@@ -122,10 +130,10 @@ const Exams = () => {
         }}
       >
         {/* Replace the rows prop with your actual data */}
-        <DataGrid rows={data} columns={columns} />
+        <DataGrid rows={[]} columns={columns} />
       </Box>
     </Box>
   );
 };
 
-export default Exams;
+export default User;

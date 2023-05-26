@@ -1,11 +1,11 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import { useEffect, useState } from "react";
 
 const Accounts = () => {
   const theme = useTheme();
@@ -68,6 +68,27 @@ const Accounts = () => {
     },
   ];
 
+  const [data, setData] = useState([]);
+
+  // Replace this line with your data fetching logic to get the actual data
+  const fetchData = async () => {
+    try {
+      // Fetch the data from your API or data source
+      const response = await fetch("/api/users");
+      const fetchedData = await response.json();
+
+      // Set the fetched data to the component state
+      setData(fetchedData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Call the fetchData function to fetch the data when the component mounts
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Box m="20px">
       <Header title="TEAM" subtitle="Managing the Team Members" />
@@ -100,7 +121,8 @@ const Accounts = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        {/* Replace the rows prop with your actual data */}
+        <DataGrid rows={data} columns={columns} />
       </Box>
     </Box>
   );

@@ -16,7 +16,6 @@ import Bar from './scenes/bar';
 import FAQS from './scenes/faqs';
 import Notifications from './scenes/notifications';
 import Exams from './scenes/exams';
-
     
 function App() {
   const [theme,colorMode] = useMode();
@@ -34,7 +33,7 @@ function App() {
         <Routes>
        // <Route path="/" element = {<Dashboard/>} />
        <Route path="/students" element = {<Students/>} />
-        <Route path="/teachers" element = {<Teachers/>} />
+       <Route path="/teachers" element = {<Teachers/>} />
         <Route path="/calendar" element = {<Events/>} />
         <Route path="/accounts" element = {<Accounts/>} />
         <Route path="/exams" element = {<Exams/>} />

@@ -20,7 +20,6 @@ import ReportIcon from '@mui/icons-material/Report';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 
-
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -128,6 +127,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            
 
             <Item
               title="Students"
@@ -165,6 +165,36 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Charts
+            </Typography>
+            <Item
+              title="Bar Chart"
+              to="/bar"
+              icon={<BarChartOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          
+            <Item
+              title="Line Chart"
+              to="/line"
+              icon={<TimelineOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+             <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Others
+            </Typography>
             <Item
               title="Events"
               to="/calendar"
@@ -195,28 +225,15 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography>
-            <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
           
             <Item
-              title="Line Chart"
-              to="/line"
+              title="Logout"
+              to="/logout"
               icon={<TimelineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+           
            
           </Box>
         </Menu>
